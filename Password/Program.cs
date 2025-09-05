@@ -11,7 +11,7 @@ namespace Password
             string user_password;
             int Maxattempts = 3;
 
-            Console.WriteLine("Enter Username: ");
+            Console.Write("Enter Username:");
             string User_name = Console.ReadLine();
 
             //Exits the program if (the username is Wrong
@@ -25,7 +25,7 @@ namespace Password
             //For loop that adds 1 to attempts per failed attempts until its equall to Maxattempts
             for (int attempts = 1; attempts <= Maxattempts; attempts++)
             {
-                Console.WriteLine("Password:");
+                Console.Write("Password:");
                 user_password = Console.ReadLine();
 
                 //the input is the == password you get promted that your in
