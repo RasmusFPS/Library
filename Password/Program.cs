@@ -31,9 +31,36 @@ namespace Password
                 //the input is the == password you get promted that your in
                 if (user_password == Password)
                 {
-                    Console.WriteLine("You are in");
-                    Thread.Sleep(200);
-                    return;
+                    Console.WriteLine("1. Vissa böcker");
+                    Console.WriteLine("2. Låna bok");
+                    Console.WriteLine("3. Lämna tillbaka bok");
+                    Console.WriteLine("4. Mina Lån");
+                    Console.WriteLine("5. Logga ut");
+
+                    string choice = Console.ReadLine();
+
+                    //depending on what number you choose depends what function will be started: NOT FINNISHED
+                    switch  (choice)
+                    {
+                        case "1":
+                            Console.WriteLine("Jk rowling Harry potter");
+                            break;
+                        case "2":
+                            Console.WriteLine("Vilken bok vill du låna");
+                                break;
+                        case "3":
+                            Console.WriteLine("Vilken bok ska du lämna tillbaka");
+                            break;
+                        case "4":
+                            Console.WriteLine("Dina lån");
+                            break;
+                        case "5":
+                            Console.WriteLine("Loggar ut...");
+                            return;
+                        default:
+                            Console.WriteLine("Invalid Input");
+                            break;
+                    }
                 }
                 else
                 {
