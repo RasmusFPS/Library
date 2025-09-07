@@ -10,33 +10,72 @@ namespace Password
             string Password = "admin123";
             string user_password;
             int Maxattempts = 3;
-            bool isloggedin = false;
 
-            Console.Write("Enter Username:");
-            string User_name = Console.ReadLine();
-
-            //Exits the program if (the username is Wrong
-            if (Username != User_name)
+            while (true)
             {
-                Console.WriteLine("Incorrect Username. Exiting");
-                Thread.Sleep(200);
-                return;
-            }
+                Console.WriteLine("1.Login \n2.Exit");
+                var log = Console.ReadLine();
 
-            //For loop that adds 1 to attempts per failed attempts until its equall to Maxattempts
-            for (int attempts = 1; attempts <= Maxattempts; attempts++)
-            {
-                Console.Write("Password:");
-                user_password = Console.ReadLine();
-
-                //the input is the == password you get promted that your in
-                if (user_password == Password)
+                switch (log)
                 {
-                    isloggedin = true;
+                    case "1":
+                        Console.Clear();
+                        break;
+                    case "2":
+                        Console.WriteLine("Exiting....");
+                        Thread.Sleep(200);
+                        Console.Clear();
+                        return;
+                }
 
-                    while (isloggedin)
+                Console.Write("Enter Username:");
+                string User_name = Console.ReadLine();
+
+                //Exits the program if (the username is Wrong
+                if (Username != User_name)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Incorrect Username. Exiting");
+                    Thread.Sleep(200);
+                    return;
+                }
+
+                bool isloggedin = false;
+
+                //For loop that adds 1 to attempts per failed attempts until its equall to Maxattempts
+                for (int attempts = 1; attempts <= Maxattempts; attempts++)
+                {
+                    Console.Write("Password:");
+                    user_password = Console.ReadLine();
+
+                    //the input is the == password you get promted that your in
+                    if (user_password == Password)
                     {
+                        isloggedin = true;
+                        break;
+                    }
+                    else
+                    {
+                        //this runs if the input was not the password
+                        if (attempts < Maxattempts)
+                        {
+                            Console.WriteLine($"You have {Maxattempts - attempts} attempts left");
+                            Thread.Sleep(500);
+                            Console.Clear();
+                        }
+                        //when all of the attempts are used the program closes
+                        else
+                        {
+                            Console.WriteLine("You have no attempts left \nExiting....");
+                        }
+                    }
+                }
 
+                if (isloggedin)
+                {
+                    bool stayLoggedin = true;
+                    while (stayLoggedin)
+                    {
                         Console.WriteLine("1. Vissa böcker");
                         Console.WriteLine("2. Låna bok");
                         Console.WriteLine("3. Lämna tillbaka bok");
@@ -62,29 +101,17 @@ namespace Password
                                 break;
                             case "5":
                                 Console.WriteLine("Loggar ut...");
-                                return;
+                                stayLoggedin = false;
+                                break;
                             default:
                                 Console.WriteLine("Invalid Input\n");
+                                Thread.Sleep(400);
+                                Console.Clear();
                                 break;
 
                         }
                     }
 
-                }
-                else
-                {
-                    //this runs if the input was not the password
-                    if (attempts < Maxattempts)
-                    {
-                        Console.WriteLine($"You have {Maxattempts - attempts} attempts left");
-                        Thread.Sleep(500);
-                        Console.Clear();
-                    }
-                    //when all of the attempts are used the program closes
-                    else
-                    {
-                        Console.WriteLine("You have no attempts left \nExiting....");
-                    }
                 }
             }
 
