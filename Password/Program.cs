@@ -1,17 +1,57 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Dynamic;
+using System.Runtime;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Password
 {
     internal class Program
     {
+
+        public class Lib
+        {
+            public string Title { get; set; }
+            public int Amount { get; set; }
+            public int rentedBooks { get; set; }
+            public int avalible => Amount - rentedBooks;
+
+            public override string ToString()
+            {
+                return $"Title: {Title} Amount: {Amount} Rented {rentedBooks} Avalible: {avalible}";
+            }
+        }
+
+        static void Library()
+        {
+            List<Lib> Books = new List<Lib>();
+
+            Books.Add(new Lib { Title = "Harry potter and the philosopher's stone", Amount = 2, rentedBooks = 0, });
+            Books.Add(new Lib { Title = "The animal farm", Amount = 1, rentedBooks = 0, });
+            Books.Add(new Lib { Title = "C# for fun", Amount = 3, rentedBooks = 2, });
+            Books.Add(new Lib { Title = "Lord of the rings", Amount = 5, rentedBooks = 0, });
+            
+            foreach (Lib book in Books)
+            {
+                Console.WriteLine(book);
+            }
+        }
+
+        static void Displaybooks()
+        {
+
+        }
+
         static void Main(string[] args)
         {
+            bool CanLogin = false;
             string Username = "admin";
             string Password = "admin123";
             string user_password;
             int Maxattempts = 3;
 
-            while (true)
+            //loop to ask if you want to login without exiting if invalid input
+            while (CanLogin == false)
             {
                 Console.WriteLine("1.Login \n2.Exit");
                 var log = Console.ReadLine();
@@ -19,6 +59,7 @@ namespace Password
                 switch (log)
                 {
                     case "1":
+                        CanLogin = true;
                         Console.Clear();
                         break;
                     case "2":
@@ -26,7 +67,16 @@ namespace Password
                         Thread.Sleep(200);
                         Console.Clear();
                         return;
+                    default:
+                        Console.WriteLine("Invalid input!");
+                        Console.Clear();
+                        break;
                 }
+            }
+
+            while (true && CanLogin)
+            {
+
 
                 Console.Write("Enter Username:");
                 string User_name = Console.ReadLine();
@@ -88,7 +138,7 @@ namespace Password
                         switch (choice)
                         {
                             case "1":
-                                Console.WriteLine("Jk rowling Harry potter");
+                                Library();
                                 break;
                             case "2":
                                 Console.WriteLine("Vilken bok vill du låna");
@@ -102,6 +152,7 @@ namespace Password
                             case "5":
                                 Console.WriteLine("Loggar ut...");
                                 stayLoggedin = false;
+                                CanLogin = false;
                                 break;
                             default:
                                 Console.WriteLine("Invalid Input\n");
@@ -114,6 +165,9 @@ namespace Password
 
                 }
             }
+
+
+
 
         }
     }
