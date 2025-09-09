@@ -30,16 +30,12 @@ namespace Password
             Books.Add(new Lib { Title = "The animal farm", Amount = 1, rentedBooks = 0, });
             Books.Add(new Lib { Title = "C# for fun", Amount = 3, rentedBooks = 2, });
             Books.Add(new Lib { Title = "Lord of the rings", Amount = 5, rentedBooks = 0, });
+            Books.Add(new Lib { Title = "Karlsson på taket", Amount = 2, rentedBooks = 2});
             
             foreach (Lib book in Books)
             {
                 Console.WriteLine(book);
             }
-        }
-
-        static void Displaybooks()
-        {
-
         }
 
         static void Main(string[] args)
@@ -74,7 +70,7 @@ namespace Password
                 }
             }
 
-            while (true && CanLogin)
+            while (true && CanLogin == true)
             {
 
 
