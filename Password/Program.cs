@@ -40,22 +40,19 @@ namespace Password
 
         static void Main(string[] args)
         {
-            bool CanLogin = false;
             string Username = "admin";
             string Password = "admin123";
             string user_password;
             int Maxattempts = 3;
 
-            //loop to ask if you want to login without exiting if invalid input
-            while (CanLogin == false)
+            while (true)
             {
                 Console.WriteLine("1.Login \n2.Exit");
-                var log = Console.ReadLine();
+                var login = Console.ReadLine();
 
-                switch (log)
+                switch (login)
                 {
                     case "1":
-                        CanLogin = true;
                         Console.Clear();
                         break;
                     case "2":
@@ -66,12 +63,8 @@ namespace Password
                     default:
                         Console.WriteLine("Invalid input!");
                         Console.Clear();
-                        break;
+                        continue;
                 }
-            }
-
-            while (true && CanLogin == true)
-            {
 
 
                 Console.Write("Enter Username:");
@@ -148,7 +141,6 @@ namespace Password
                             case "5":
                                 Console.WriteLine("Loggar ut...");
                                 stayLoggedin = false;
-                                CanLogin = false;
                                 break;
                             default:
                                 Console.WriteLine("Invalid Input\n");
