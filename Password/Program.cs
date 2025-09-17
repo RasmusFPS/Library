@@ -24,17 +24,20 @@ namespace Password
 
         static void Library()
         {
+
+            int indexNum = 1;
             List<Lib> Books = new List<Lib>();
 
             Books.Add(new Lib { Title = "Harry potter and the philosopher's stone", Amount = 2, rentedBooks = 0, });
             Books.Add(new Lib { Title = "The animal farm", Amount = 1, rentedBooks = 0, });
             Books.Add(new Lib { Title = "C# for fun", Amount = 3, rentedBooks = 2, });
             Books.Add(new Lib { Title = "Lord of the rings", Amount = 5, rentedBooks = 0, });
-            Books.Add(new Lib { Title = "Karlsson på taket", Amount = 2, rentedBooks = 2});
-            
+            Books.Add(new Lib { Title = "Karlsson på taket", Amount = 2, rentedBooks = 2 });
+
             foreach (Lib book in Books)
             {
-                Console.WriteLine(book);
+                Console.WriteLine($"{indexNum}. {book}");
+                indexNum++;
             }
         }
 
@@ -127,16 +130,26 @@ namespace Password
                         switch (choice)
                         {
                             case "1":
+                                Console.Clear();
                                 Library();
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadLine();
+                                Console.Clear();
                                 break;
                             case "2":
                                 Console.WriteLine("Vilken bok vill du låna");
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadLine();
                                 break;
                             case "3":
                                 Console.WriteLine("Vilken bok ska du lämna tillbaka");
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadLine();
                                 break;
                             case "4":
                                 Console.WriteLine("Dina lån");
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadLine();
                                 break;
                             case "5":
                                 Console.WriteLine("Loggar ut...");
