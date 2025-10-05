@@ -122,7 +122,11 @@ namespace Password
                         switch (choice)
                         {
                             case "1":
+                                Console.Clear();
                                 Library();
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadLine();
+                                Console.Clear();
                                 break;
                             case "2":
                                 Console.WriteLine("Vilken bok vill du låna");
