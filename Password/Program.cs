@@ -15,25 +15,10 @@ namespace Password
 
         static string[] userLoans = new string[5];
 
-        static void Library()
-        {
-            Console.Clear();
-
-            Console.WriteLine("--- Bibliotekets böcker ---");
-
-            for (int i = 0; i < bookTitles.Length; i++)
-            {
-                int availableCopies = Copies[i] - Loans[i];
-                Console.WriteLine($"{i+1}. {bookTitles[i]}");
-            }
-
-            Console.WriteLine("Press enter to continue...");
-            Console.ReadLine();
-            Console.Clear();
-        }
 
         static void Main(string[] args)
         {
+            userLoans[3] = "no longer human";
 
             string Username = "admin";
             string Password = "admin123";
@@ -107,6 +92,7 @@ namespace Password
 
                 if (isloggedin)
                 {
+                    Console.Clear();
                     bool stayLoggedin = true;
                     while (stayLoggedin)
                     {
@@ -124,21 +110,21 @@ namespace Password
                             case "1":
                                 Console.Clear();
                                 Library();
-                                Console.WriteLine("Press any key to continue...");
                                 Console.ReadLine();
                                 Console.Clear();
                                 break;
                             case "2":
                                 Console.WriteLine("Vilken bok vill du låna");
                                 LoanBook();
-                                Console.ReadLine();
                                 break;
                             case "3":
                                 Console.WriteLine("Vilken bok ska du lämna tillbaka");
+                                ReturnBook();
                                 Console.ReadLine();
                                 break;
                             case "4":
                                 Console.WriteLine("Dina lån");
+                                ShowLoans();
                                 Console.ReadLine();
                                 break;
                             case "5":
@@ -159,6 +145,18 @@ namespace Password
             }
 
 
+        }
+        static void Library()
+        {
+            Console.Clear();
+
+            Console.WriteLine("--- Bibliotekets böcker ---");
+
+            for (int i = 0; i < bookTitles.Length; i++)
+            {
+                int availableCopies = Copies[i] - Loans[i];
+                Console.WriteLine($"{i + 1}. {bookTitles[i]}");
+            }
         }
 
         static void LoanBook()
@@ -199,5 +197,60 @@ namespace Password
                 Console.WriteLine("tyvärr är denna utlånad");
             }
         }
+
+        public static void ReturnBook()
+        {
+            Console.Clear();
+            ShowLoans();
+
+            Console.Write("Välj numret på boken du vill lämna tillbaka:");
+
+            int choice = Convert.ToInt32(Console.ReadLine());
+            int LoanIndex = choice - 1;
+
+            if (userLoans[LoanIndex] != null)
+            {
+                string BookToReturn = userLoans[LoanIndex];
+
+                int BookIndex = -1;
+                for(int i = 0; i <bookTitles.Length; i++)
+                {
+                    if (bookTitles[i] == BookToReturn) 
+                    { 
+                        BookIndex = i; 
+                        break; 
+                    }
+                }
+
+                Loans[BookIndex]--;
+
+                userLoans[LoanIndex] = null;
+
+                Console.WriteLine($"Du har lämnat tillbaka {BookToReturn}");
+            }
+            else
+            {
+                Console.WriteLine("Du har ingen bok på den platsen");
+            }
+        }
+
+        static void ShowLoans()
+        {
+            bool hasloan = false;
+
+            for (int i = 0; i < Loans.Length; i++)
+            {
+                if(userLoans[i] != null)
+                {
+                    Console.WriteLine($"{i+1}. {userLoans[i]}");
+                    hasloan = true;
+                }
+            }
+
+            if (hasloan == false)
+            {
+                Console.WriteLine("du har inga lån!");
+            }
+        }   
     }
 }
