@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Dynamic;
+using System.Numerics;
 using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
@@ -8,38 +9,32 @@ namespace Password
 {
     internal class Program
     {
+        static string[] bookTitles = { "Harry potter", "Sagan om ringen", "Animal farm", "no longer human", "The setting sun" };
+        static int[] Copies = { 2, 3, 1, 4, 2 };
+        static int[] Loans = { 0, 1, 0, 0, 0 };
 
-        public class Lib
-        {
-            public string Title { get; set; }
-            public int Amount { get; set; }
-            public int rentedBooks { get; set; }
-            public int avalible => Amount - rentedBooks;
-
-            public override string ToString()
-            {
-                return $"Title: {Title} Amount: {Amount} Rented {rentedBooks} Avalible: {avalible}";
-            }
-        }
+        static string[] userLoans = new string[5];
 
         static void Library()
         {
-            List<Lib> Books = new List<Lib>();
+            Console.Clear();
 
-            Books.Add(new Lib { Title = "Harry potter and the philosopher's stone", Amount = 2, rentedBooks = 0, });
-            Books.Add(new Lib { Title = "The animal farm", Amount = 1, rentedBooks = 0, });
-            Books.Add(new Lib { Title = "C# for fun", Amount = 3, rentedBooks = 2, });
-            Books.Add(new Lib { Title = "Lord of the rings", Amount = 5, rentedBooks = 0, });
-            Books.Add(new Lib { Title = "Karlsson på taket", Amount = 2, rentedBooks = 2});
-            
-            foreach (Lib book in Books)
+            Console.WriteLine("--- Bibliotekets böcker ---");
+
+            for (int i = 0; i < bookTitles.Length; i++)
             {
-                Console.WriteLine(book);
+                int availableCopies = Copies[i] - Loans[i];
+                Console.WriteLine($"{i+1}. {bookTitles[i]}");
             }
+
+            Console.WriteLine("Press enter to continue...");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         static void Main(string[] args)
         {
+
             string Username = "admin";
             string Password = "admin123";
             string user_password;
@@ -68,10 +63,10 @@ namespace Password
 
 
                 Console.Write("Enter Username:");
-                string User_name = Console.ReadLine();
+                string UserInput = Console.ReadLine();
 
                 //Exits the program if (the username is Wrong
-                if (Username != User_name)
+                if (Username != UserInput)
                 {
                     Console.Clear();
                     Console.WriteLine("Incorrect Username. Exiting");
@@ -131,12 +126,16 @@ namespace Password
                                 break;
                             case "2":
                                 Console.WriteLine("Vilken bok vill du låna");
+                                LoanBook();
+                                Console.ReadLine();
                                 break;
                             case "3":
                                 Console.WriteLine("Vilken bok ska du lämna tillbaka");
+                                Console.ReadLine();
                                 break;
                             case "4":
                                 Console.WriteLine("Dina lån");
+                                Console.ReadLine();
                                 break;
                             case "5":
                                 Console.WriteLine("Loggar ut...");
@@ -144,6 +143,7 @@ namespace Password
                                 break;
                             default:
                                 Console.WriteLine("Invalid Input\n");
+                                Console.ReadLine();
                                 Thread.Sleep(400);
                                 Console.Clear();
                                 break;
@@ -155,8 +155,45 @@ namespace Password
             }
 
 
+        }
 
+        static void LoanBook()
+        {
+            Library();
 
+            Console.WriteLine("Ange numret av boken du vill låna");
+
+            int choice = Convert.ToInt32(Console.ReadLine());
+            int bookIndex = choice - 1;
+
+            if (Copies[bookIndex] - Loans[bookIndex] > 0)
+            {
+                int emptyspot = -1;
+
+                for (int i = 0; i < userLoans.Length; i++)
+                {
+                    if (userLoans[i] == null)
+                    {
+                        emptyspot = i;
+                        break;
+                    }
+                }
+
+                if (emptyspot != -1)
+                {
+                    userLoans[emptyspot] = bookTitles[bookIndex];
+                    Loans[bookIndex]++;
+                    Console.WriteLine($"du har lånat {bookTitles[bookIndex]}");
+                }
+                else
+                {
+                    Console.WriteLine("du kan inte låna mer");
+                }
+            }
+            else
+            {
+                Console.WriteLine("tyvärr är denna utlånad");
+            }
         }
     }
 }
