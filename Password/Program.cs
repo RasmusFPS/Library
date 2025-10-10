@@ -1,9 +1,4 @@
-﻿using System.ComponentModel;
-using System.Dynamic;
-using System.Numerics;
-using System.Runtime;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
+﻿using System;
 
 namespace Password
 {
@@ -18,10 +13,11 @@ namespace Password
 
         static void Main(string[] args)
         {
+            string[] Users = {"Rasmus","Bengt","Olof", "Jens", "CowLord" };
+            string[] Passwords = { "1234", "123", "olof","12345","LordCow" };
+
             userLoans[3] = "no longer human";
 
-            string Username = "admin";
-            string Password = "admin123";
             string user_password;
             int Maxattempts = 3;
 
@@ -46,17 +42,24 @@ namespace Password
                         continue;
                 }
 
+                int UserIndex = -1;
 
                 Console.Write("Enter Username:");
                 string UserInput = Console.ReadLine();
 
-                //Exits the program if (the username is Wrong
-                if (Username != UserInput)
+                for(int i = 0; i < Users.Length; i++)
                 {
-                    Console.Clear();
-                    Console.WriteLine("Incorrect Username. Exiting");
-                    Thread.Sleep(200);
-                    return;
+                    if (Users[i] == UserInput)
+                    {
+                        UserIndex = i;
+                        break;
+                    }
+                }
+
+                if(UserIndex == -1)
+                {
+                    Console.WriteLine("No matching username found...");
+                    break;
                 }
 
                 bool isloggedin = false;
@@ -68,7 +71,7 @@ namespace Password
                     user_password = Console.ReadLine();
 
                     //the input is the == password you get promted that your in
-                    if (user_password == Password)
+                    if (user_password == Passwords[UserIndex])
                     {
                         isloggedin = true;
                         break;
@@ -86,6 +89,7 @@ namespace Password
                         else
                         {
                             Console.WriteLine("You have no attempts left \nExiting....");
+                            return;
                         }
                     }
                 }
@@ -110,22 +114,30 @@ namespace Password
                             case "1":
                                 Console.Clear();
                                 Library();
+                                Console.WriteLine("Tryck enter för att återgå till huvudmenyn");
                                 Console.ReadLine();
                                 Console.Clear();
                                 break;
                             case "2":
                                 Console.WriteLine("Vilken bok vill du låna");
                                 LoanBook();
+                                Console.WriteLine("Tryck enter för att återgå till huvudmenyn");
+                                Console.ReadLine();
+                                Console.Clear();
                                 break;
                             case "3":
                                 Console.WriteLine("Vilken bok ska du lämna tillbaka");
                                 ReturnBook();
+                                Console.WriteLine("Tryck enter för att återgå till huvudmenyn");
                                 Console.ReadLine();
+                                Console.Clear();
                                 break;
                             case "4":
                                 Console.WriteLine("Dina lån");
                                 ShowLoans();
+                                Console.WriteLine("Tryck enter för att återgå till huvudmenyn");
                                 Console.ReadLine();
+                                Console.Clear();
                                 break;
                             case "5":
                                 Console.WriteLine("Loggar ut...");
@@ -133,7 +145,6 @@ namespace Password
                                 break;
                             default:
                                 Console.WriteLine("Invalid Input\n");
-                                Console.ReadLine();
                                 Thread.Sleep(400);
                                 Console.Clear();
                                 break;
@@ -150,12 +161,12 @@ namespace Password
         {
             Console.Clear();
 
-            Console.WriteLine("--- Bibliotekets böcker ---");
+            Console.WriteLine("Bibliotekets böcker");
 
             for (int i = 0; i < bookTitles.Length; i++)
             {
                 int availableCopies = Copies[i] - Loans[i];
-                Console.WriteLine($"{i + 1}. {bookTitles[i]}");
+                Console.WriteLine($"{i + 1}. {bookTitles[i]}  Copies:{availableCopies}");
             }
         }
 
@@ -186,15 +197,18 @@ namespace Password
                     userLoans[emptyspot] = bookTitles[bookIndex];
                     Loans[bookIndex]++;
                     Console.WriteLine($"du har lånat {bookTitles[bookIndex]}");
+
                 }
                 else
                 {
                     Console.WriteLine("du kan inte låna mer");
+
                 }
             }
             else
             {
                 Console.WriteLine("tyvärr är denna utlånad");
+
             }
         }
 
@@ -231,7 +245,9 @@ namespace Password
             else
             {
                 Console.WriteLine("Du har ingen bok på den platsen");
+
             }
+
         }
 
         static void ShowLoans()
@@ -250,7 +266,9 @@ namespace Password
             if (hasloan == false)
             {
                 Console.WriteLine("du har inga lån!");
+
+
             }
-        }   
+        }
     }
 }
