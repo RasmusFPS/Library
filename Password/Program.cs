@@ -4,18 +4,22 @@ namespace Password
 {
     internal class Program
     {
+        //global arrays for all the functions
         static string[] bookTitles = { "Dune", "Sagan om ringen", "Animal farm", "no longer human", "The setting sun" };
         static int[] Copies = { 2, 3, 1, 4, 2 };
         static int[] Loans = { 0, 1, 0, 0, 0 };
 
+        //keeps track and limits user to only have 5 loans
         static string[] userLoans = new string[5];
 
 
         static void Main(string[] args)
         {
+            //arrays for usernames and passwords needed for login
             string[] Users = {"Rasmus","Bengt","Olof", "Jens", "CowLord" };
             string[] Passwords = { "1234", "123", "olof","12345","LordCow" };
 
+            //added a loan so that i could see the function being used worked
             userLoans[3] = "no longer human";
 
             string user_password;
@@ -26,6 +30,7 @@ namespace Password
                 Console.WriteLine("1.Login \n2.Exit");
                 var login = Console.ReadLine();
 
+                //choose between exiting the program or to login
                 switch (login)
                 {
                     case "1":
@@ -47,6 +52,7 @@ namespace Password
                 Console.Write("Enter Username:");
                 string UserInput = Console.ReadLine();
 
+                //checks if the userinput exist within the users array
                 for(int i = 0; i < Users.Length; i++)
                 {
                     if (Users[i] == UserInput)
@@ -98,6 +104,8 @@ namespace Password
                 {
                     Console.Clear();
                     bool stayLoggedin = true;
+
+                    //this only starts if we have logged in correctly and the bool is true
                     while (stayLoggedin)
                     {
                         Console.WriteLine("1. Vissa böcker");
@@ -108,7 +116,7 @@ namespace Password
 
                         string choice = Console.ReadLine();
 
-                        //depending on what number you choose depends what function will be started: NOT FINNISHED
+                        //the number you choose calls a diffrent function that will be called
                         switch (choice)
                         {
                             case "1":
@@ -163,6 +171,7 @@ namespace Password
 
             Console.WriteLine("Bibliotekets böcker");
 
+            //goes through my array of books than prints out indexNum, title and copies.
             for (int i = 0; i < bookTitles.Length; i++)
             {
                 int availableCopies = Copies[i] - Loans[i];
@@ -172,17 +181,20 @@ namespace Password
 
         static void LoanBook()
         {
+            //just call the lib so i dont have to write it again, this is more efficent
             Library();
 
             Console.WriteLine("Ange numret av boken du vill låna");
 
             int choice = int.Parse(Console.ReadLine());
+            //makes the choice -1 since c# arrays start at 0
             int Index = choice - 1;
 
+            //checks if there are enough copies than creates a empty var so if that remains -1 we will not loan to it
             if (Copies[Index] - Loans[Index] > 0)
             {
                 int emptyspot = -1;
-
+                //if it finds a null spot in userLoans than it replaces emptyspot to become i
                 for (int i = 0; i < userLoans.Length; i++)
                 {
                     if (userLoans[i] == null)
@@ -191,7 +203,7 @@ namespace Password
                         break;
                     }
                 }
-
+                //if emptyspot has changed than we take that number and loan the book with the same index number
                 if (emptyspot != -1)
                 {
                     userLoans[emptyspot] = bookTitles[Index];
@@ -205,6 +217,7 @@ namespace Password
 
                 }
             }
+            //this happens if there are no copies of that book
             else
             {
                 Console.WriteLine("tyvärr är denna utlånad");
@@ -215,18 +228,23 @@ namespace Password
         public static void ReturnBook()
         {
             Console.Clear();
+            //once again insted of writing it all again we use that function we made before to efficently show the loans
             ShowLoans();
 
             Console.Write("Välj numret på boken du vill lämna tillbaka:");
 
             int choice = int.Parse(Console.ReadLine());
+            //makes the choice -1 since c# arrays start at 0
             int LoanIndex = choice - 1;
 
+            //checks if the number we choose - 1, has a book in the array
             if (userLoans[LoanIndex] != null)
             {
+                //we copie the name of the book and index number to this string
                 string BookToReturn = userLoans[LoanIndex];
 
                 int BookIndex = -1;
+                //go through our books to see if we find a matching from the Booktoreturn string and if we do we change Bookindex to i
                 for(int i = 0; i <bookTitles.Length; i++)
                 {
                     if (bookTitles[i] == BookToReturn) 
@@ -235,7 +253,7 @@ namespace Password
                         break; 
                     }
                 }
-
+                //removes the book from the Loans array and sets it to null so its empty
                 Loans[BookIndex]--;
 
                 userLoans[LoanIndex] = null;
@@ -253,7 +271,7 @@ namespace Password
         static void ShowLoans()
         {
             bool hasloan = false;
-
+            //checks if we have any loans and if we do we add +1 to the printed message becuase arrays start at 0
             for (int i = 0; i < Loans.Length; i++)
             {
                 if(userLoans[i] != null)
@@ -262,7 +280,7 @@ namespace Password
                     hasloan = true;
                 }
             }
-
+            //if the bool remains false we dont have any loans and we print that out
             if (hasloan == false)
             {
                 Console.WriteLine("du har inga lån!");
