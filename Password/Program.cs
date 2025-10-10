@@ -4,7 +4,7 @@ namespace Password
 {
     internal class Program
     {
-        static string[] bookTitles = { "Harry potter", "Sagan om ringen", "Animal farm", "no longer human", "The setting sun" };
+        static string[] bookTitles = { "Dune", "Sagan om ringen", "Animal farm", "no longer human", "The setting sun" };
         static int[] Copies = { 2, 3, 1, 4, 2 };
         static int[] Loans = { 0, 1, 0, 0, 0 };
 
@@ -176,10 +176,10 @@ namespace Password
 
             Console.WriteLine("Ange numret av boken du vill låna");
 
-            int choice = Convert.ToInt32(Console.ReadLine());
-            int bookIndex = choice - 1;
+            int choice = int.Parse(Console.ReadLine());
+            int Index = choice - 1;
 
-            if (Copies[bookIndex] - Loans[bookIndex] > 0)
+            if (Copies[Index] - Loans[Index] > 0)
             {
                 int emptyspot = -1;
 
@@ -194,9 +194,9 @@ namespace Password
 
                 if (emptyspot != -1)
                 {
-                    userLoans[emptyspot] = bookTitles[bookIndex];
-                    Loans[bookIndex]++;
-                    Console.WriteLine($"du har lånat {bookTitles[bookIndex]}");
+                    userLoans[emptyspot] = bookTitles[Index];
+                    Loans[Index]++;
+                    Console.WriteLine($"du har lånat {bookTitles[Index]}");
 
                 }
                 else
@@ -219,7 +219,7 @@ namespace Password
 
             Console.Write("Välj numret på boken du vill lämna tillbaka:");
 
-            int choice = Convert.ToInt32(Console.ReadLine());
+            int choice = int.Parse(Console.ReadLine());
             int LoanIndex = choice - 1;
 
             if (userLoans[LoanIndex] != null)
