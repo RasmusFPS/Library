@@ -47,26 +47,36 @@ namespace Password
                         continue;
                 }
 
+                //arrays cant be -1 so by setting userindex to -1 we ensure that no bugs happen
                 int UserIndex = -1;
+                bool Valid = false;
 
-                Console.Write("Enter Username:");
-                string UserInput = Console.ReadLine();
-
-                //checks if the userinput exist within the users array
-                for(int i = 0; i < Users.Length; i++)
+                //until you use a valid username it will loop
+                while(Valid == false)
                 {
-                    if (Users[i] == UserInput)
+
+                    Console.Write("Enter Username:");
+                    string UserInput = Console.ReadLine().ToLower();
+
+                    //checks if the userinput exist within the users array
+                    for (int i = 0; i < Users.Length; i++)
                     {
-                        UserIndex = i;
+                        if (Users[i].ToLower() == UserInput)
+                        {
+                            UserIndex = i;
+                            Valid = true;
+                            break;
+                        }    
+                    }
+
+                    if (Valid == false)
+                    {
+                        Console.WriteLine("No matching username found...");
                         break;
                     }
+
                 }
 
-                if(UserIndex == -1)
-                {
-                    Console.WriteLine("No matching username found...");
-                    break;
-                }
 
                 bool isloggedin = false;
 
@@ -76,7 +86,7 @@ namespace Password
                     Console.Write("Password:");
                     user_password = Console.ReadLine();
 
-                    //the input is the == password you get promted that your in
+                    //Checks if your password is in the password array if so then you login
                     if (user_password == Passwords[UserIndex])
                     {
                         isloggedin = true;
@@ -84,7 +94,7 @@ namespace Password
                     }
                     else
                     {
-                        //this runs if the input was not the password
+                        //this runs if the inputed password dosent corespond with a password in the array
                         if (attempts < Maxattempts)
                         {
                             Console.WriteLine($"You have {Maxattempts - attempts} attempts left");
@@ -105,7 +115,7 @@ namespace Password
                     Console.Clear();
                     bool stayLoggedin = true;
 
-                    //this only starts if we have logged in correctly and the bool is true
+                    //this only starts if we have logged in correctly and the bool isloggedin is true
                     while (stayLoggedin)
                     {
                         Console.WriteLine("1. Vissa böcker");
@@ -175,7 +185,7 @@ namespace Password
             for (int i = 0; i < bookTitles.Length; i++)
             {
                 int availableCopies = Copies[i] - Loans[i];
-                Console.WriteLine($"{i + 1}. {bookTitles[i]}  Copies:{availableCopies}");
+                Console.WriteLine($"{i + 1}. {bookTitles[i]} | Copies:{availableCopies}");
             }
         }
 
