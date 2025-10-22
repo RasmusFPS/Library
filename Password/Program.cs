@@ -8,19 +8,20 @@ namespace Password
         static string[] bookTitles = { "Dune", "Sagan om ringen", "Animal farm", "no longer human", "The setting sun" };
         static int[] Copies = { 2, 3, 1, 4, 2 };
         static int[] Loans = { 0, 1, 0, 0, 0 };
+        static int account = -1;
 
         //keeps track and limits user to only have 5 loans
-        static string[] userLoans = new string[5];
+        static string[,] userLoans = new string[5,5];
 
 
         static void Main(string[] args)
         {
             //arrays for usernames and passwords needed for login
             string[] Users = {"Rasmus","Bengt","Olof", "Jens", "CowLord" };
-            string[] Passwords = { "1234", "123", "olof","12345","LordCow" };
+            string[] Passwords = { "1234", "123", "olof", "12345", "LordCow" };
 
             //added a loan so that i could see the function being used worked
-            userLoans[3] = "no longer human";
+            userLoans[3,3] = "no longer human";
 
             string user_password;
             int Maxattempts = 3;
@@ -52,7 +53,7 @@ namespace Password
                 bool Valid = false;
 
                 //until you use a valid username it will loop
-                while(Valid == false)
+                while(!Valid)
                 {
 
                     Console.Write("Enter Username:");
@@ -64,6 +65,7 @@ namespace Password
                         if (Users[i].ToLower() == UserInput)
                         {
                             UserIndex = i;
+                            account = i;
                             Valid = true;
                             break;
                         }    
@@ -207,7 +209,7 @@ namespace Password
                 //if it finds a null spot in userLoans than it replaces emptyspot to become i
                 for (int i = 0; i < userLoans.Length; i++)
                 {
-                    if (userLoans[i] == null)
+                    if (userLoans[i,account] == null)
                     {
                         emptyspot = i;
                         break;
@@ -216,7 +218,7 @@ namespace Password
                 //if emptyspot has changed than we take that number and loan the book with the same index number
                 if (emptyspot != -1)
                 {
-                    userLoans[emptyspot] = bookTitles[Index];
+                    userLoans[emptyspot,account] = bookTitles[Index];
                     Loans[Index]++;
                     Console.WriteLine($"du har lånat {bookTitles[Index]}");
 
@@ -248,10 +250,10 @@ namespace Password
             int LoanIndex = choice - 1;
 
             //checks if the number we choose - 1, has a book in the array
-            if (userLoans[LoanIndex] != null)
+            if (userLoans[LoanIndex,account] != null)
             {
                 //we copie the name of the book and index number to this string
-                string BookToReturn = userLoans[LoanIndex];
+                string BookToReturn = userLoans[LoanIndex,account];
 
                 int BookIndex = -1;
                 //go through our books to see if we find a matching from the Booktoreturn string and if we do we change Bookindex to i
@@ -266,7 +268,7 @@ namespace Password
                 //removes the book from the Loans array and sets it to null so its empty
                 Loans[BookIndex]--;
 
-                userLoans[LoanIndex] = null;
+                userLoans[LoanIndex,account] = null;
 
                 Console.WriteLine($"Du har lämnat tillbaka {BookToReturn}");
             }
@@ -284,9 +286,9 @@ namespace Password
             //checks if we have any loans and if we do we add +1 to the printed message becuase arrays start at 0
             for (int i = 0; i < Loans.Length; i++)
             {
-                if(userLoans[i] != null)
+                if(userLoans[i,account] != null)
                 {
-                    Console.WriteLine($"{i+1}. {userLoans[i]}");
+                    Console.WriteLine($"{i+1}. {userLoans[i,account]}");
                     hasloan = true;
                 }
             }
